@@ -1,0 +1,24 @@
+see, jab hum kisi folder ke andar folder banate hai and wo internal folder empty hota hai to git usse track nhi krta cuz wo empty hai
+but hume humara workflow theek rakhne ke liye wo file chaiye bhi hoti hai isliye hum .gitkeep use krte hai to tell git isse bhi track karo
+
+we also have git ignore file generator on internet which gives us bydefault all the files that should be in gitignore for that perticular project
+
+we have created .env.sample so that in future i can know what were the things written in .env basically it is a copy of .env 
+
+we are using module js and for module js we use import not required so we need to put this in package.json
+
+now as we'll be adding multiple files in our project and we will need to restart our server often so for that we can either do manual start 
+stop or we can use nodemon, nodemon basically restarts the server everytime the new file is saved
+nodemon is a devdependency, now whats the diff in dependency and devdependency
+dependency are those which are used in development phase as well as production phase, but devdependency are thode dependencies that
+are not used in production, it is just used for development purpose  "npm i -D nodemon" command for installing nodemon devdependency
+
+now our nodemon will reload the files in our index.js , but we need to define it like that
+like we use 'npm run start' this command runs start from the package.json we will change it to dev and will define it
+"dev": "nodemon src/index.js"  // when we will run "npm run dev"  nodemon will automatically run index.js 
+
+thers also a slight issue with .env and module js that is we cannot use import 'dotenv/config' we need to use required for this one 
+but we'll solve this issue later
+
+
+
