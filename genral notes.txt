@@ -1,5 +1,6 @@
-see, jab hum kisi folder ke andar folder banate hai and wo internal folder empty hota hai to git usse track nhi krta cuz wo empty hai
-but hume humara workflow theek rakhne ke liye wo file chaiye bhi hoti hai isliye hum .gitkeep use krte hai to tell git isse bhi track karo
+see, jab hum kisi folder ke andar folder banate hai and wo internal folder empty hota hai to git usse track nhi krta cuz wo empty hai 
+and git files track krta hai wheather they are empty or not wo empty folder ko bydefault track nhi krta, but hume humara workflow
+theek rakhne ke liye wo file chaiye bhi hoti hai isliye hum .gitkeep use krte hai to tell git isse bhi track karo
 
 we also have git ignore file generator on internet which gives us bydefault all the files that should be in gitignore for that perticular project
 
@@ -19,6 +20,17 @@ like we use 'npm run start' this command runs start from the package.json we wil
 
 thers also a slight issue with .env and module js that is we cannot use import 'dotenv/config' we need to use required for this one 
 but we'll solve this issue later
+
+now we have created multiple folders using mkdir command, and the folders that we created are contollers, db, models, middlewares, routes, utils
+contollers is used for writting the contoller codes, db is used for writting the database connectivity, models is made for writting models of 
+mongo in it, routes is made for writting apis in it /ig, /start ,/login etc, utils is for diff utilities like mailing, file uploading which we
+will need multiple times
+
+now we will also install prettier which is a devdependency and is mostly used for avoiding merge conflicts as it bydefaultly makes the code 
+more organised. "npm i -D prettier", when the prettier is added we need to add some files (.prettierrc, .prettierignore) by our own to define what changes should be done 
+automatically , .prettierignore is used to define which files are not meant to be changed like node modules, env files, distribution files etc
+
+
 
 
 
