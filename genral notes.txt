@@ -125,3 +125,4 @@ in such cases an error msg is thrown which we've written in try catch
 so it is imp to write the specific error it will give us in the catch statement
 so that we can understand where we used that language or sentence for error
 
+till here we have connected to mongo atlas i.e database connectivity is done
