@@ -30,7 +30,98 @@ now we will also install prettier which is a devdependency and is mostly used fo
 more organised. "npm i -D prettier", when the prettier is added we need to add some files (.prettierrc, .prettierignore) by our own to define what changes should be done 
 automatically , .prettierignore is used to define which files are not meant to be changed like node modules, env files, distribution files etc
 
+see, now we are working on mongodb atlas and to access mongodb through atlas we need 3 things necessarily i.e
+1. ip address
+2. correct id password
+3. correct url
 
+and professionally we never "allow access from anywhere", we give it a specific ip address to access the db
+but for this project we are using allow all access i.e ip = 0.0.0.0/0  
+now to connect with the database we also need a string and whenever we are given a string it never gives us the password
+its like this "mongodb+srv://kumar:<password>@cluster0.mjkegme.mongodb.net/"
+we need to replace password  with our password and also we do not need the last slash of our string
 
+now we will define the port and URL in .env
 
+we will also define the database name in constants.js file, we can also save this in our .env file dosent matter
+
+now the databse connectivity is done by 2 methods 
+1. either by writting the connection code directly in the index.js file
+2. creating a seperate folder for db connection (this approach keeps code modular, neat and clean )
+
+NOTE: while talking with db we can always have problems, to avoid that use try catch or promises(resolve, reject) and most of the times the 
+problem while talking with db is that databse is in another continent, while talking with database it takes some time and to avoid that
+always use async await
+
+what is an iife (immideatly invoked function expression)? iife is just a normal function which executes as soon as it is invoked 
+written as ()(), first bracket is for defining the function and second one is for calling it immideatly 
+also theres a common error while using iife is if a previous statement is not having any semi colon it throws error to avoid that 
+ppl generally use ;()() instead of ()()
+
+this iife is used for the db connectivity
+
+writting the port in `` allow for the inclusion of variables and expressions within a string using the ${expression} syntax. 
+
+we use import{} for importing variables from diff files
+
+we just dont have to add the process.env.mongodb_uri, we also need to give a / and database name after that
+
+many times express app or listner is also initialised in index.js file and is written just below the connection of db
+this is because what if the db is connected but the app is having some problem for that app.on is used 
+
+now we will be heading towards the modular approach in db/index.js, here we have used process.exit(1)
+process is an inbuilt function of node and as we know every operation is running on an process and here we
+exit that process with an exit code 1 
+(read about this later)
+
+we can also store the mongoose.connect in a variable, mongoose allows us to store 
+the respomces of the connection as mongoose returns an object
+
+printing the connectionInstance it gives us the details of connection process
+like it gives us our mongo db connection url if we use connectionInstance.connection.host
+
+we can also write the require dotenv syntax but that disrupts the
+consistency of our code, so below one is the correct approach for importing
+require ('dotenv').config({path: './path'})
+
+heres how we write the common js dotenv in mofule js 
+import dotenv from "dotenv" 
+
+dotenv.config({ 
+    path: './env' 
+})
+and this is an experimental feature so for that we need to 
+edit the scripts in package.json
+"dev": "nodemon -r dotenv/config src/index.js"
+
+now we will try running the program however we havent written any app yet
+but jsut to check everything is file we will try running it by 
+npm run dev
+
+sometimes npm run dev may give us this error
+"Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import 
+'D:\chai_aur_backend\src\db' is not supported resolving 
+ES modules imported from D:\chai_aur_backend\src\index.js"
+
+the above error is that it is not able to import the files
+in db folder in our src/index.js, to solve it we will add 
+index.js in import connectDB from "./db/index.js"
+when error like this occours most of the time theres an issue
+in import statement 
+now we have another error 
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'D:\chai_aur_backend\src\constants'
+this error tells us that is cannot find the constants.js
+for this we will add constants.js in import statement of db/index.js
+
+NOTE: if we chnage anything in environment variables we need to
+manually restart the server cuz here nodemon cannot automatically restart it
+
+now, what are the error we get when theres a database failure
+this is the error we will get if theres an error while connecting the db
+and it will be condename: 'AtlasError', below is the error
+MONGODB connection error MongoServerError: bad auth : authentication failed
+
+in such cases an error msg is thrown which we've written in try catch
+so it is imp to write the specific error it will give us in the catch statement
+so that we can understand where we used that language or sentence for error
 
