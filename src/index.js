@@ -14,6 +14,23 @@ dotenv.config({ // config is a method and it takes an object as parameter
 
 // below code approach is by making diff folders for diff functionalities
 connectDB()
+.then(()=> {
+    app.listen(process.env.PORT || 8000, () => {
+        console.log(`server i srunning at PORT: ${process.env.PORT}`)
+        
+    })
+})
+.catch((error)=> {
+    console.log("MongoDB connection failed! in src/index.js", error)
+})
+
+
+
+
+
+
+
+
 
 
 

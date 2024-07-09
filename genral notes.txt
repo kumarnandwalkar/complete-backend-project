@@ -126,3 +126,112 @@ so it is imp to write the specific error it will give us in the catch statement
 so that we can understand where we used that language or sentence for error
 
 till here we have connected to mongo atlas i.e database connectivity is done
+
+now as we've written the async in db/index.js file, always remember
+async gives us a promise in return once it is completed
+and now we will be using that promise in src/index.js file
+by writting .then() just after the database connection is done 
+and for our safety we will also put a .catch() so that if
+the db connection fails again we will know what and where the erorr is 
+.then() and .catch() gives us a callback function in parameter
+
+now we will start listening for our app as our databas connection is sucessfull
+
+app.use is used when we want some middleware or cors(cross origin resource sharing)
+settings
+
+now we will install cookieparser and cors using npm 
+
+NOTE: cors and cookie parser can be used once the app is created
+
+majorly when we want to solve the issue of cors then we just add app.use(cors()) for configuration
+and it solves our problem
+
+cors also have some more functionality in it like corsoption which allows
+us to allow the only urls which will interact with our backend server
+or from which urls we will recive our requests
+
+we also have an functionality of allowing our req origin , i.e from 
+where can we recive the req on our server
+so for that we need to create an object inside the cors() method 
+and we need to define the cors_origin there we can also define it in our
+.env file, many times ppl allow access from all origins which is not a good
+practice "CORS_ORIGIN = *" this should not be done but for now we are allowing it
+we will also allow credentials
+
+now we also need to cofigure our server what kind of requests will it accept
+will it accept json req or form req and we will also limit how many req one can send etc
+app.use(express.json({limit: "16kb"})) 
+the above statement shows it will accept only json format and upto 16kb
+
+in prev versions of express it didnt allow to directly work with json, we were supposed
+to use body parser but now we dont need that 
+
+now we also need to configure our server to accept request from URL 
+now URL is a bit diff from json, cuz when a url sends req it has many special characters
+in it like +, %20, =, %20 respresents space given in url/search etc and this is all because of URL encoder which every browser has
+now we need to configure our server so that these =,+% such things are not taken in input
+
+extended keyword, this keyword allows us to give an object inside another object
+app.use(express.urlencoded({
+    extended: true, limit: "16kb"
+}))
+although just by writting express.urlencoded we can handel our url but for further functionality we 
+are using extended so that we can have another objects in it
+
+now if we are willing to keep some files or images or anything on the server temp 
+we can do it by using app.use(express.static("public")) this public is a folder name
+and anything that is to be kept temporarily will be kept in public folder
+
+so there are these 3 major configureations in our app
+1. express.json,
+2. express.urlencoded
+3. express.static
+
+now we have this cookie parser, this is used to by server only to keep/remove the cookies 
+on the users browser securly 
+
+later on cookie parser is used which is used by server to store
+and access cookies stored on users browser
+
+what is middleware:- basically jab hum koi bhi req send krenge apne server ko
+wo ek responce dega, ab wo responce directly sabko na dekar pehle wo kuch cheeje 
+check karega ki ye req authetic hai ya nhi, isse responce dena chaiye ya nhi
+ye sab kaam hota hai middleware kaam
+eg: check if user is logged in before able to search 
+and there can be multiple middlewares and there is a sequence of adding middlewares
+
+sirf req, res nhi hota, there are total of 4 parameters error, request, responce, next
+if we are using next then we are for sure using middleware cuz next is just a flag
+and har ek middleware ke baad next use krna padta hai so that agla middleware check ho sake
+
+now we will be making a utility out of all these db connectivities, cuz it will be 
+repeated n number of times so that if we make it a wrapper function in utility
+then everytime when we need to connect to db we will use the function
+
+what is asynchandler: It is a utility which ensures that any errors thrown 
+within asynchronous functions are caught and forwarded to the error handling middleware\
+
+what is a higher order function, such function which can take other
+functions as the input eg: asynchandler
+
+in our code we have made the asynchandler as a wrapper class
+
+in asynchandler we have used a try catch so that it can handel errors
+if the middleware gets an error , in catch part we have returned
+an error code i.e 500, 404 etc furhter that we have used .json 
+so that we will get error code as well as we can help the frontend dev by
+raising a success flag and have also displayed the error message
+
+now we have made the same code just by using the promises 
+
+now we will make a   new file in utils which will have the standardised
+code for api errors and later on we will also create standard 
+api responce file so that whenever we are sending any api error or respoce
+then it will go in the described format
+
+we will also standardise the api response format 
+by making a filke apiresponse
+
+// Ill suggest ek bar GPT karke apiresponse nd api error padhlena
+
