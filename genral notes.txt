@@ -225,7 +225,7 @@ raising a success flag and have also displayed the error message
 
 now we have made the same code just by using the promises 
 
-now we will make a   new file in utils which will have the standardised
+now we will make a new file in utils which will have the standardised
 code for api errors and later on we will also create standard 
 api responce file so that whenever we are sending any api error or respoce
 then it will go in the described format
@@ -234,4 +234,128 @@ we will also standardise the api response format
 by making a filke apiresponse
 
 // Ill suggest ek bar GPT karke apiresponse nd api error padhlena
+
+now we will create the models for user and videos for our youtube application
+(when mongo db generates the object id for every item then that id is stored in 
+BSON data and not JSON data)
+
+https://app.eraser.io/workspace/YtPqZ1VogxGy1jzIDkzj // this is the model
+respresentation of our yt app
+
+here we will be storing the coverimage and avatar on a diff third party
+service which will give us the link and we will directly store the link 
+
+if we want to make our database more serachable or we will be using our db
+for more searching purpose then always do index: true for that field,
+remember, do not do the indexing for every entity it slows down db performance
+and it also optimizes the db eg: username: {type: string, required: true, index: true} although it makes 
+db intense i.e takes more disk space, INSERT, UPDATE, and DELETE are all 
+slowed by indexes, but UPDATE is speed up if the WHERE condition has 
+an indexed field. Since the indexes must be modified with each process,
+INSERT, UPDATE, and DELETE become slower
+
+mongo db allows us to store small media files in it but its not a good practice
+and makes the database heavy
+
+for the duration in video model we'll get the duration of vieos from our 
+hosting platform url cuz as we upload any media in it it also gives us the
+time duration of that media its common in every cloud service
+here we are using cloudnary
+
+watchhistory is the most complex thing in this project and
+for this we will be using mongoose-aggregate-paginate-v2
+this npm package allows us to write the aggregae querries in mongo
+to insatll this package:
+npm i mongoose-aggregate-paginate-v2
+it is the true power of mongodb which is most widely used in indutry
+and production ready applications
+
+first import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+note: we have to use this aggregate querries before exporting the model
+
+we can also use middlewares in mongoose, like pre, post, save etc
+pre: do something just before entering the data, 
+post: do something just after entering the data
+
+and mongoose also allows us to write plugins
+
+as this aggreagte querry feature in mongo db has came late compared
+to other languages, (for more indept use reffer doccumentation, its easy
+to understand ) we use these using plugins and this mongoose 
+aggregation pipeline will take our project to advanced level
+(u can put this in ur resume to let the recruiter know u've worked on this)
+
+to use the mongoose Aggregate pipeline: 
+videoSchema.plugin(mongooseAggregatePaginate)
+
+now we will be installing bcrypt (not bcriptjs)
+bcrypt is a library that helps u to hash ur password 
+
+we'll be also installing JWT (json web token)
+this one is used for making tokens
+
+now we'll import bcrypt and JWT
+but, we cannot use these two directly, we need to use them using
+mongoose hooks (middleware in mongoose)
+we'll use pre hooks which works just before saving the data as it 
+is a middleware, and in most of the professional codes this pre hook for
+encryption is written in model file
+
+now we will use pre hook in users.models.js which will accept the operation name
+and a callback, (operation is save)
+NOTE: we do not have (this) in callback function, so in most of the cases 
+we have function written in pre hook 
+
+and here we have made the function as async function cuz it may take time 
+to respond also as 'pre' is a middleware hook it needs 
+a next flag
+
+then we'll encrypt the password using this.password and a method of bcrypt
+bcrypt.hash, which accepts the field that is to be encrypted and the
+rounds of encryption to be performed on it ,so here we have taken 10
+
+now we have created a problem here, that is this encrypt will be triggerd
+whenever save is clicked so if anyone changes supose avatar and hits save
+our pre hook will detect it and again save the password ifever it was not 
+given(will take the prev value written in memory) 
+so to avoid this we'll make code such that it will only trigger the encrypt 
+pre hook only when the password field is updated
+
+we'll also be creating custom methods to check if the provided password is 
+correct or not, for that we will compare the password provided by the user 
+and our encrypted password from database using bcrypt.compare
+and this method returns bool value, and as we know this is cryptography
+it need computational power which may take time to respond
+so for that we will use async await 
+and as this is a method just like pre hook it need a function for input
+we've given password as input and then it returns the bool value
+
+talking about JWT
+NOTE: JWT is a bearertoken which means that jo usse beare karta hai
+usse sahi maan lete hai hum, i.e jo bhi mujhe ye token bhejega me usse data
+bhej dunga more of a key (generally asked in interviews)
+
+we need to write these access token secret, access token expiry in .env file
+cuz these are imp Atleast access token secret is imp and cannot be leaked
+although we can write anything in place of secret token but Since
+we are making a production grade application so just used a random key
+(key is bought from jwt.io)
+we've given 1d time for token to expire 
+generally refresh token expire is much more time than token expire
+
+we'll be using both secissions and cookies and we'll not be storing access 
+toke secret
+
+we can also create a function to generate access tokens and refresh tokens
+
+sign method in jwt generates token
+
+we are using both session and cookies for more security and we our access token 
+secret will not be stored in databse whereas out refresh token expiry will be 
+stored in database
+
+basically both refresh and access tokens are same just they have different usage
+
+now we will give the 
+
 
